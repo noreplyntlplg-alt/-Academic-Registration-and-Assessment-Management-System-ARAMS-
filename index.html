@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARAMS - ระบบบริหารงานทะเบียนและวัดผล</title>
+    <!-- Font TH Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ระบบ Login -->
+    <div id="login-container" class="login-wrapper">
+        <div class="login-box">
+            <div class="login-logo"><i class="fas fa-graduation-cap"></i> ARAMS</div>
+            <p class="login-subtitle">ระบบบริหารงานทะเบียนและวัดผล</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="ชื่อผู้ใช้งาน" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="รหัสผ่าน" required>
+                </div>
+                <button type="submit" id="btn-login" class="btn-primary">เข้าสู่ระบบ</button>
+            </form>
+            <p id="login-msg" class="error-msg"></p>
+        </div>
+    </div>
+
+    <!-- แอปพลิเคชันหลัก (ซ่อนไว้จนกว่าจะ Login) -->
+    <div id="app-container" class="app-layout hidden">
+        <!-- แถบเมนูด้านซ้าย -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-graduation-cap"></i> ARAMS</h2>
+            </div>
+            <div class="user-info">
+                <div class="avatar"><i class="fas fa-user-circle"></i></div>
+                <div class="user-details">
+                    <span id="user-fullname">ชื่อ นามสกุล</span>
+                    <small id="user-role">ตำแหน่ง</small>
+                </div>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" onclick="switchMenu('dashboard')" class="active"><i class="fas fa-home"></i> หน้าหลัก / Dashboard</a>
+                <a href="#" onclick="switchMenu('students')"><i class="fas fa-user-graduate"></i> งานทะเบียนนักเรียน</a>
+                <a href="#"><i class="fas fa-book"></i> งานหลักสูตรและรายวิชา</a>
+                <a href="#"><i class="fas fa-edit"></i> งานบันทึกคะแนน</a>
+                <a href="#"><i class="fas fa-chart-bar"></i> งานวัดและประเมินผล</a>
+                <a href="#"><i class="fas fa-tools"></i> งานแก้ผลการเรียน</a>
+                <a href="#"><i class="fas fa-calendar-check"></i> งานการมาเรียน</a>
+                <a href="#"><i class="fas fa-file-signature"></i> งานลา</a>
+                <a href="#"><i class="fas fa-print"></i> งานออกเอกสาร (ปพ.)</a>
+                <div class="menu-divider"></div>
+                <a href="#" onclick="logout()" class="text-danger"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</a>
+            </nav>
+        </aside>
+
+        <!-- พื้นที่แสดงเนื้อหาด้านขวา -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-title" id="page-title">หน้าหลัก</div>
+                <div class="topbar-actions">
+                    <button class="icon-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+                    <button class="icon-btn"><i class="fas fa-cog"></i></button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- โมดูล: Dashboard -->
+                <section id="module-dashboard" class="module-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-blue"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <h3>นักเรียนทั้งหมด</h3>
+                                <p id="stat-total-students">---</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bg-green"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <div class="stat-info">
+                                <h3>คุณครู</h3>
+                                <p>45</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bg-orange"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="stat-info">
+                                <h3>นักเรียนติด 0, ร, มส</h3>
+                                <p>12</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bg-red"><i class="fas fa-user-times"></i></div>
+                            <div class="stat-info">
+                                <h3>ขาดเรียนวันนี้</h3>
+                                <p>5</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- โมดูล: ทะเบียนนักเรียน -->
+                <section id="module-students" class="module-section hidden">
+                    <div class="module-header">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="ค้นหารหัสนักเรียน, ชื่อ-สกุล...">
+                        </div>
+                        <button class="btn-primary" onclick="showAddStudentForm()"><i class="fas fa-plus"></i> เพิ่มนักเรียน</button>
+                    </div>
+                    
+                    <div class="card">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>รหัสนักเรียน</th>
+                                    <th>ชื่อ-นามสกุล</th>
+                                    <th>ชั้นเรียน</th>
+                                    <th>ห้อง</th>
+                                    <th>สถานะ</th>
+                                    <th>จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-table-body">
+                                <!-- ข้อมูลจะถูกดึงมาใส่ตรงนี้ด้วย JS -->
+                                <tr><td colspan="6" class="text-center">กำลังโหลดข้อมูล...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script ของเรา -->
+    <script src="app.js"></script>
+</body>
+</html>
