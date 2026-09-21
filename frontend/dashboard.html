@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>หน้าหลัก | ARAMS</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="emblem"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="name">ระบบบริหารงานทะเบียน<br />และวัดผล (ARAMS)</div>
+    </div>
+
+    <div class="nav-group-label">ภาพรวม</div>
+    <div class="nav-item active"><i class="fa-solid fa-house"></i> หน้าหลัก</div>
+
+    <div class="nav-group-label">งานทะเบียน</div>
+    <div class="nav-item disabled"><i class="fa-solid fa-user-graduate"></i> ทะเบียนนักเรียน <span class="soon-tag">เฟส 2</span></div>
+    <div class="nav-item disabled"><i class="fa-solid fa-book"></i> หลักสูตร/รายวิชา <span class="soon-tag">เฟส 2</span></div>
+
+    <div class="nav-group-label">งานวิชาการ</div>
+    <div class="nav-item disabled"><i class="fa-solid fa-pen-to-square"></i> บันทึกคะแนน <span class="soon-tag">เฟส 3</span></div>
+    <div class="nav-item disabled"><i class="fa-solid fa-chart-simple"></i> วัดและประเมินผล <span class="soon-tag">เฟส 3</span></div>
+    <div class="nav-item disabled"><i class="fa-solid fa-rotate"></i> แก้ผลการเรียน <span class="soon-tag">เฟส 4</span></div>
+    <div class="nav-item disabled"><i class="fa-solid fa-calendar-check"></i> งานมาเรียน/ลา <span class="soon-tag">เฟส 4</span></div>
+
+    <div class="nav-group-label">เอกสาร/รายงาน</div>
+    <div class="nav-item disabled"><i class="fa-solid fa-file-lines"></i> ออกเอกสาร (ปพ.) <span class="soon-tag">เฟส 5</span></div>
+    <div class="nav-item disabled"><i class="fa-solid fa-chart-line"></i> สถิติและวิเคราะห์ <span class="soon-tag">เฟส 5</span></div>
+    <div class="nav-item disabled"><i class="fa-solid fa-bullhorn"></i> ประกาศ <span class="soon-tag">เฟส 5</span></div>
+
+    <div class="nav-group-label">ระบบ</div>
+    <div class="nav-item" id="navUsers"><i class="fa-solid fa-users-gear"></i> จัดการผู้ใช้งาน</div>
+    <div class="nav-item disabled"><i class="fa-solid fa-gear"></i> ตั้งค่าระบบ <span class="soon-tag">เฟส 6</span></div>
+
+    <div class="sidebar-footer">
+      <div class="logout-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <h1>หน้าหลัก</h1>
+        <div class="subtitle">ภาพรวมข้อมูลของโรงเรียน</div>
+      </div>
+      <div class="user-chip">
+        <div class="avatar" id="avatarInitial">-</div>
+        <div class="meta">
+          <div class="name" id="userFullName">-</div>
+          <div class="role" id="userRole">-</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <h2 class="section-heading">ข้อมูลนักเรียนและบุคลากร</h2>
+      <div class="stat-grid" id="mainStatGrid">
+        <!-- เติมด้วย JavaScript -->
+      </div>
+
+      <div class="panel">
+        <h2 class="section-heading" style="margin-top:0;">โมดูลที่กำลังจะเปิดใช้งาน</h2>
+        <ul class="pending-list" id="pendingList"></ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal: เพิ่มผู้ใช้งาน (แอดมินเท่านั้น) -->
+<div class="modal-overlay" id="userModalOverlay">
+  <div class="modal">
+    <h3>เพิ่มผู้ใช้งานใหม่</h3>
+    <div class="sub">กำหนดชื่อผู้ใช้ รหัสผ่าน และบทบาทของผู้ใช้งาน</div>
+
+    <div class="form-error" id="userFormError"></div>
+
+    <form id="addUserForm">
+      <div class="field">
+        <label>ชื่อ-นามสกุล</label>
+        <input type="text" id="newFullName" required />
+      </div>
+      <div class="field">
+        <label>ชื่อผู้ใช้</label>
+        <input type="text" id="newUsername" required />
+      </div>
+      <div class="field">
+        <label>รหัสผ่าน</label>
+        <input type="password" id="newPassword" required />
+      </div>
+      <div class="field">
+        <label>บทบาท</label>
+        <select id="newRole">
+          <option value="director">ผู้อำนวยการ</option>
+          <option value="academic">รองผู้อำนวยการ/ฝ่ายวิชาการ</option>
+          <option value="teacher">ครู</option>
+          <option value="student">นักเรียน</option>
+          <option value="parent">ผู้ปกครอง</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="cancelUserModal">ยกเลิก</button>
+        <button type="submit" class="btn-primary compact" id="saveUserBtn">บันทึก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<button class="fab-add-user" id="fabAddUser" style="display:none;">
+  <i class="fa-solid fa-user-plus"></i> เพิ่มผู้ใช้งาน
+</button>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>
